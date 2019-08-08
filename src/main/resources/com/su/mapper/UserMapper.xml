@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql -->
+<mapper namespace="com.su.mapper.UserMapper">
+
+    <select id="queryUserById" parameterType="int" resultType="User">
+        SELECT * FROM user WHERE id= #{id}
+    </select>
+    <select id="queryUserByQueryVo" parameterType="QueryVo" resultType="User">
+        select * from user where username LIKE '%${user.username}%'
+    </select>
+
+    <resultMap type="User" id="useMap">
+        <result column="sex" property="sex" typeHandler="com.su.util.MyTypeHandler" javaType="java.lang.String"
+                jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="queryUser" resultMap="useMap" parameterType="User">
+        select * from user
+        <where>
+            <!--  <if test="username!=null and  username !=''">
+                  username LIKE '%${username}%'
+              </if>-->
+            <if test="sex !=null">
+                and sex =#{sex,jdbcType=INTEGER,typeHandler=com.su.util.MyTypeHandler}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryCount" resultType="int">
+        SELECT COUNT(*) FROM  user
+    </select>
+
+
+</mapper>

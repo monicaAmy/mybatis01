@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 是用resource属性加载外部配置文件 -->
+    <properties resource="db.properties">
+        <!-- 在properties内部用property定义属性 -->
+        <!-- 如果外部配置文件有该属性，则内部定义属性被外部属性覆盖 -->
+        <property name="jdbc.username" value="root123"/>
+        <property name="jdbc.password" value="123456"/>
+    </properties>
+
+
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="defaultStatementTimeout" value="3000"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- Continue going here -->
+    <typeAliases>
+        <package name="com.su.pojo"/>
+    </typeAliases>
+
+    <objectFactory type="com.su.util.MyObjectFactory"/>
+
+    <plugins>
+        <plugin interceptor="com.su.util.SimpleInterceptor"></plugin>
+    </plugins>
+
+    <environments default="xxx">
+        <environment id="xxx">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <package name="com.su.mapper"/>
+    </mappers>
+
+</configuration>
+
+
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.su.mapper.OrderMapper">
+    <resultMap id="orderResultMap" type="order">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="number" column="number"/>
+        <association property="user" javaType="User">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+    <!--<select id="queryOrderAll" resultType="Order">
+       select * from `order`
+   </select>-->
+
+    <select id="queryOrderAll" resultMap="orderResultMap">
+        select * from `order`
+    </select>
+
+    <select id="queryOrderUser" resultMap="orderResultMap">
+        SELECT
+              o.id,
+              o.number,
+              u.username
+            FROM
+              `order` o
+            LEFT JOIN `user` u ON u.id = o.user_id
+    </select>
+
+    <select id="querylastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+</mapper>
